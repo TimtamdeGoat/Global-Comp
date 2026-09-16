@@ -1,0 +1,268 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="en">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>Global Comp & Champions League</title>\
+    <style>\
+        :root \{\
+            --bg-color: #1a1a2e;\
+            --panel-color: #16213e;\
+            --accent-color: #0f3460;\
+            --text-color: #e94560;\
+            --light-text: #ffffff;\
+        \}\
+        body \{\
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\
+            background-color: var(--bg-color);\
+            color: var(--light-text);\
+            margin: 0;\
+            padding: 20px;\
+            text-align: center;\
+        \}\
+        header \{\
+            margin-bottom: 30px;\
+            border-bottom: 3px solid var(--text-color);\
+            padding-bottom: 10px;\
+        \}\
+        h1 \{ color: var(--text-color); margin: 5px 0; \}\
+        .credits \{ font-style: italic; color: #888; margin-bottom: 5px; \}\
+        .container \{\
+            max-width: 800px;\
+            margin: 0 auto;\
+            background: var(--panel-color);\
+            padding: 20px;\
+            border-radius: 10px;\
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);\
+        \}\
+        .screen \{ display: none; \}\
+        .active \{ display: block; \}\
+        button \{\
+            background-color: var(--text-color);\
+            color: white;\
+            border: none;\
+            padding: 12px 25px;\
+            font-size: 16px;\
+            font-weight: bold;\
+            border-radius: 5px;\
+            cursor: pointer;\
+            margin: 10px;\
+            transition: 0.2s;\
+        \}\
+        button:hover \{ opacity: 0.9; transform: scale(1.05); \}\
+        .menu-box \{\
+            display: flex;\
+            flex-direction: column;\
+            align-items: center;\
+        \}\
+        .input-group \{\
+            margin: 15px;\
+        \}\
+        input \{\
+            padding: 10px;\
+            font-size: 16px;\
+            border-radius: 5px;\
+            border: none;\
+            margin-left: 10px;\
+        \}\
+        .grid \{\
+            display: grid;\
+            grid-template-columns: repeat(4, 1fr);\
+            gap: 10px;\
+            margin: 20px 0;\
+        \}\
+        .card \{\
+            background: var(--accent-color);\
+            padding: 15px;\
+            border-radius: 5px;\
+            cursor: pointer;\
+            border: 2px solid transparent;\
+        \}\
+        .card:hover \{ border-color: var(--text-color); \}\
+        .selected \{ border-color: var(--light-text) !important; background: #1f4068; \}\
+        .kit-toggle \{\
+            background: #444;\
+            padding: 5px 10px;\
+            font-size: 12px;\
+            margin-top: 5px;\
+            display: inline-block;\
+            border-radius: 3px;\
+        \}\
+        #pitch \{\
+            width: 100%;\
+            height: 400px;\
+            background: #2e7d32;\
+            position: relative;\
+            overflow: hidden;\
+            border: 5px solid white;\
+            border-radius: 5px;\
+            margin-top: 20px;\
+        \}\
+        .player \{\
+            width: 30px;\
+            height: 30px;\
+            border-radius: 50%;\
+            position: absolute;\
+            font-weight: bold;\
+            display: flex;\
+            align-items: center;\
+            justify-content: center;\
+            color: white;\
+            text-shadow: 1px 1px 2px black;\
+            border: 2px solid white;\
+        \}\
+        #ball \{\
+            width: 15px;\
+            height: 15px;\
+            background: white;\
+            border-radius: 50%;\
+            position: absolute;\
+            border: 1px solid black;\
+        \}\
+        .scoreboard \{\
+            display: flex;\
+            justify-content: space-around;\
+            font-size: 24px;\
+            font-weight: bold;\
+            background: #000;\
+            padding: 10px;\
+            border-radius: 5px;\
+        \}\
+        .controls-hint \{\
+            margin-top: 15px;\
+            background: rgba(255,255,255,0.1);\
+            padding: 10px;\
+            border-radius: 5px;\
+            font-size: 14px;\
+        \}\
+    </style>\
+</head>\
+<body>\
+\
+    <header>\
+        <div class="credits">Made by Timtam</div>\
+        <h1>GLOBAL COMP & CHAMPIONS LEAGUE</h1>\
+    </header>\
+\
+    <div class="container">\
+        \
+        <!-- MAIN MENU -->\
+        <div id="main-menu" class="screen active">\
+            <h2>Select Game Mode</h2>\
+            <div class="menu-box">\
+                <button onclick="switchScreen('lobby-screen')">Play 2Player (Same Device)</button>\
+                <div class="input-group">\
+                    <button onclick="hostGame()">Host Room</button>\
+                    <button onclick="joinGame()">Join with Code</button>\
+                    <input type="text" id="room-code" placeholder="Enter Room Code">\
+                </div>\
+                <p id="lobby-status" style="color: #ffda79;"></p>\
+            </div>\
+        </div>\
+\
+        <!-- LOBBY / MODE SELECTION -->\
+        <div id="lobby-screen" class="screen">\
+            <h2>Choose Tournament</h2>\
+            <button onclick="initTournament('global')">Global Comp (16 Countries)</button>\
+            <button onclick="initTournament('cl')">Champions League (8 Clubs)</button>\
+            <br>\
+            <button onclick="switchScreen('main-menu')">Back</button>\
+        </div>\
+\
+        <!-- TEAM SELECTION -->\
+        <div id="team-select-screen" class="screen">\
+            <h2 id="select-title">Select Player 1 Team</h2>\
+            <div class="grid" id="teams-grid"></div>\
+            <button onclick="confirmTeamSelection()">Confirm Selection</button>\
+        </div>\
+\
+        <!-- TOURNAMENT BRACKET / STANDINGS -->\
+        <div id="tournament-screen" class="screen">\
+            <h2 id="tourney-title">Tournament Progress</h2>\
+            <div id="tourney-details"></div>\
+            <button id="start-match-btn" onclick="startNextMatch()">Play Next Match</button>\
+        </div>\
+\
+        <!-- GAMEPLAY SCREEN -->\
+        <div id="game-screen" class="screen">\
+            <div class="scoreboard">\
+                <span id="score-p1">P1: 0</span>\
+                <span id="match-timer">Time: 00</span>\
+                <span id="score-p2">P2: 0</span>\
+            </div>\
+            <div id="pitch">\
+                <div id="p1-sprite" class="player">P1</div>\
+                <div id="p2-sprite" class="player">P2</div>\
+                <div id="ball"></div>\
+            </div>\
+            <div class="controls-hint">\
+                <strong>Player 1 (Left):</strong> W/A/S/D to move. <br>\
+                <strong>Player 2 (Right):</strong> Arrow Keys to move. <br>\
+                <em>Run into the ball to push it into the opponent's net!</em>\
+            </div>\
+        </div>\
+\
+    </div>\
+\
+    <script>\
+        // Data Structures\
+        const countries = [\
+            \{ name: "England", tier: 1, kits: \{ traditional: "#eeeeee", third: "#0a192f" \} \},\
+            \{ name: "France", tier: 1, kits: \{ traditional: "#002395", third: "#ffffff" \} \},\
+            \{ name: "Argentina", tier: 1, kits: \{ traditional: "#75aadb", third: "#111111" \} \},\
+            \{ name: "Spain", tier: 1, kits: \{ traditional: "#c60b1e", third: "#ffffff" \} \},\
+            \{ name: "Portugal", tier: 2, kits: \{ traditional: "#ff0000", third: "#ffffff" \} \},\
+            \{ name: "Morocco", tier: 2, kits: \{ traditional: "#c1272d", third: "#006233" \} \},\
+            \{ name: "Norway", tier: 2, kits: \{ traditional: "#d0102a", third: "#ffffff" \} \},\
+            \{ name: "Switzerland", tier: 2, kits: \{ traditional: "#d52b1e", third: "#ffffff" \} \},\
+            \{ name: "Japan", tier: 3, kits: \{ traditional: "#000080", third: "#ffffff" \} \},\
+            \{ name: "Netherlands", tier: 3, kits: \{ traditional: "#ff4f00", third: "#000000" \} \},\
+            \{ name: "Croatia", tier: 3, kits: \{ traditional: "#ff0000", third: "#111111" \} \},\
+            \{ name: "Australia", tier: 3, kits: \{ traditional: "#ffcd00", third: "#008751" \} \},\
+            \{ name: "India", tier: 4, kits: \{ traditional: "#00bfff", third: "#ffffff" \} \},\
+            \{ name: "Pakistan", tier: 4, kits: \{ traditional: "#004b23", third: "#ffffff" \} \},\
+            \{ name: "Bangladesh", tier: 4, kits: \{ traditional: "#006a4e", third: "#f42a41" \} \},\
+            \{ name: "China", tier: 4, kits: \{ traditional: "#de2910", third: "#ffde00" \} \}\
+        ];\
+\
+        const clubs = [\
+            \{ name: "Madrid White", kits: \{ traditional: "#ffffff", third: "#111111" \} \},\
+            \{ name: "Barc\'e0 blue", kits: \{ traditional: "#004d98", third: "#edbb00" \} \},\
+            \{ name: "Manchester red", kits: \{ traditional: "#da291c", third: "#ffffff" \} \},\
+            \{ name: "Manchester sky blue", kits: \{ traditional: "#6cabdd", third: "#111111" \} \},\
+            \{ name: "Pool of Livers", kits: \{ traditional: "#c8102e", third: "#ffffff" \} \},\
+            \{ name: "Gooners", kits: \{ traditional: "#ef0107", third: "#023441" \} \},\
+            \{ name: "Buy and Munch", kits: \{ traditional: "#dc052d", third: "#ffffff" \} \},\
+            \{ name: "Paris Dictators", kits: \{ traditional: "#0052b4", third: "#f1c40f" \} \}\
+        ];\
+\
+        let currentGameMode = ''; \
+        let selectedP1 = null;\
+        let selectedP2 = null;\
+        let p1KitType = 'traditional';\
+        let p2KitType = 'traditional';\
+        let choosingPlayer = 1;\
+        let pool = [];\
+\
+        // Simple State Switching\
+        function switchScreen(screenId) \{\
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));\
+            document.getElementById(screenId).classList.add('active');\
+        \}\
+\
+        // Mock Local Host/Join Features for Chat Simulation\
+        function hostGame() \{\
+            const code = Math.floor(1000 + Math.random() * 9000);\
+            document.getElementById('lobby-status').innerText = `Room created! Code: $\{code\}. Waiting for P2 (Local controls enabled anyway!)`;\
+            setTimeout(() => \{ switchScreen('lobby-screen'); \}, 2000);\
+        \}\
+\
+        function joinGame() \{\
+}
